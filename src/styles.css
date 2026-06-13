@@ -1,4 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* reseteo y colores base */
 body {
   margin: 0;
   padding: 0;
@@ -7,12 +11,12 @@ body {
   color: #333333;
 }
 
-/* escala de grises */
+/* escala de grises para toda la app */
 html {
   filter: grayscale(100%);
 }
 
-/* clase contenedora principal */
+/* contenedor principal */
 .app-shell {
   min-height: 100vh;
   display: flex;
