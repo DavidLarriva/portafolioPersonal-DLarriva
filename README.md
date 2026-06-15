@@ -13,3 +13,15 @@ proyecto integrador de programacion y plataformas web. portafolio minimalista en
 - creacion de componentes globales header y footer.
 - creacion de vistas principales home, perfil y login.
 - configuracion del enrutador de angular para navegacion.
+
+## Paso 3: Configuración del CMS Headless (Strapi)
+En esta fase se configuró el backend del proyecto utilizando Strapi, cumpliendo con la separación de responsabilidades solicitada en la arquitectura.
+
+**Colecciones creadas:**
+* **Programador:** Almacena la información del perfil (nombre, especialidad, descripciones, foto, redes sociales).
+* **Proyecto:** Almacena los proyectos de portafolio. Se implementó una **relación de muchos a muchos** (has and belongs to many) con la colección Programador.
+* **Servicio:** Almacena las áreas de especialización.
+
+**Configuraciones de seguridad:**
+Se modificaron los permisos en la sección *Users & Permissions Plugin > Roles > Public* para permitir peticiones no autenticadas (`find` y `findOne`) a los endpoints del contenido dinámico, permitiendo que Angular pueda consumir la API pública del portafolio.
+
