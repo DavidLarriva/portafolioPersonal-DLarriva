@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, authState, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+// traemos las funciones de firebase, incluyendo la de crear cuentas
+import { Auth, authState, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { from } from 'rxjs';
 
@@ -8,18 +9,19 @@ import { from } from 'rxjs';
 })
 export class AuthService {
   
-  // inyectamos la herramienta central de autenticacion
   private auth = inject(Auth);
 
-  // creamos un signal que siempre sabra si hay alguien conectado
   currentUser = toSignal(authState(this.auth));
 
-  // metodo para pedirle a firebase que inicie sesion
   login(email: string, pass: string) {
     return from(signInWithEmailAndPassword(this.auth, email, pass));
   }
 
-  // metodo para pedirle a firebase que cierre la sesion
+  // agregamos la funcion para crear usuarios nuevos en firebase
+  registro(email: string, pass: string) {
+    return from(createUserWithEmailAndPassword(this.auth, email, pass));
+  }
+
   logout() {
     return from(signOut(this.auth));
   }

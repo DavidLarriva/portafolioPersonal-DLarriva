@@ -27,3 +27,8 @@ se modificaron los permisos en la seccion *users & permissions plugin > roles > 
 
 ## paso 6: consumo de la api (conexion angular - strapi)
 se configuro httpclient para realizar peticiones al backend. se creo un servicio para consumir los endpoints publicos de strapi. se diseño la interfaz de las paginas home y perfil aplicando directivas de control de flujo para renderizar los datos del programador y sus proyectos relacionados de forma dinamica, armando correctamente las url de las imagenes.
+## paso 7: autenticacion con firebase (google)
+se integro la plataforma firebase de google para manejar la seguridad y las sesiones de usuario. 
+- se configuro `@angular/fire` en la aplicacion.
+- se creo un servicio `auth.service.ts` utilizando señales (`signals`) y flujos reactivos (`rxjs`) para gestionar el registro, inicio de sesion y cierre de sesion.
+- se implemento un formulario reactivo en la pagina de login que permite a usuarios externos crear cuentas y a los programadores acceder al sistema de forma segura.

@@ -1,9 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+// herramientas de angular para formularios seguros
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
-  imports: [],
+  standalone: true,
+  imports: [ReactiveFormsModule],
   templateUrl: './login-page.html',
-  styleUrl: './login-page.css',
+  styleUrls: ['./login-page.css']
 })
-export class LoginPage {}
+export class LoginPage {
+  
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  // controlamos si el usuario quiere entrar o registrarse
+  esModoLogin = signal<boolean>(true);
+  
+  // guardamos los errores devueltos por firebase
+  mensajeError = signal<string>('');
+
+  // creamos el formulario con reglas estrictas
+  authForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
+  });
+
+  // funcion para cambiar entre la vista de login y la de registro
+  cambiarModo() {
+    this.esModoLogin.update(valor => !valor);
+    this.mensajeError.set('');
+    this.authForm.reset();
+  }
+
+  // funcion que se ejecuta al presionar el boton principal
+  enviarFormulario() {
+    if (this.authForm.invalid) return;
+
+    const { email, password } = this.authForm.value;
+
+    if (this.esModoLogin()) {
+      // intentamos iniciar sesion
+      this.authService.login(email!, password!).subscribe({
+        next: () => this.router.navigate(['/']),
+        error: (err) => this.mensajeError.set('correo o contrasena incorrectos')
+      });
+    } else {
+      // intentamos registrar un usuario nuevo
+      this.authService.registro(email!, password!).subscribe({
+        next: () => this.router.navigate(['/']),
+        error: (err) => this.mensajeError.set('hubo un error al crear la cuenta')
+      });
+    }
+  }
+}
