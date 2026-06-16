@@ -1,4 +1,12 @@
-<main class="min-h-screen bg-gray-50 p-8 font-sans text-gray-900">
+<main class="min-h-screen bg-gray-50 p-8 font-sans text-gray-900 relative">
+  
+  <!-- nuestra notificacion minimalista que reemplaza al alert -->
+  @if (notificacion()) {
+    <div class="fixed top-24 right-8 bg-black text-white px-6 py-3 rounded shadow-md z-50">
+      {{ notificacion() }}
+    </div>
+  }
+
   <div class="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-200">
     
     <div class="border-b border-gray-300 pb-4 mb-8 flex justify-between items-center">
@@ -13,13 +21,14 @@
     <div class="space-y-6">
       @for (solicitud of solicitudes(); track solicitud.id) {
         
-        <div class="p-6 border border-gray-200 rounded-lg bg-gray-50 shadow-sm">
+        <div class="p-6 border border-gray-200 rounded-lg bg-gray-50 shadow-sm relative">
+          
+          <!-- cabecera con el remitente y estado -->
           <div class="flex justify-between items-start mb-4">
             <div>
               <h3 class="font-bold text-lg text-black">{{ solicitud.nombre }}</h3>
               <p class="text-sm text-gray-500">{{ solicitud.correo }}</p>
             </div>
-            
             <span class="px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider" 
                   [class.bg-gray-300]="solicitud.estado === 'Pendiente'"
                   [class.text-gray-800]="solicitud.estado === 'Pendiente'"
@@ -29,23 +38,36 @@
             </span>
           </div>
 
+          <!-- cuerpo de la idea original -->
           <div class="mb-4">
             <p class="text-sm font-medium text-gray-700 mb-1">idea o proyecto:</p>
             <p class="text-gray-600 bg-white p-3 rounded border border-gray-200">{{ solicitud.mensaje }}</p>
           </div>
 
+          <!-- seccion para leer la respuesta guardada (visible para ambos) -->
+          @if (solicitud.respuestaProgramador) {
+            <div class="mb-4">
+              <p class="text-sm font-bold text-black mb-1">respuesta del desarrollador:</p>
+              <p class="text-gray-700 bg-white p-3 rounded border border-gray-200 border-l-4 border-l-gray-800">{{ solicitud.respuestaProgramador }}</p>
+            </div>
+          } @else if (!esProgramador()) {
+            <p class="text-xs text-gray-500 mt-4 italic">esperando la respuesta del desarrollador...</p>
+          }
+
+          <!-- area de edicion solo para el programador -->
           @if (esProgramador()) {
             <div class="mt-6 pt-4 border-t border-gray-300">
-              <p class="text-sm font-bold text-black mb-3">tu respuesta (programador):</p>
+              <p class="text-sm font-bold text-gray-600 mb-3">actualizar respuesta o estado:</p>
               
               <div class="flex gap-4 items-start">
                 <div class="flex-1 space-y-3">
                   <select [(ngModel)]="solicitud.estadoTemporal" class="w-full px-3 py-2 border border-gray-300 rounded text-sm outline-none focus:border-gray-500">
+                    <option value="" disabled selected>cambiar estado...</option>
                     <option value="Pendiente">marcar como pendiente</option>
                     <option value="Respondida">marcar como respondida</option>
                   </select>
                   
-                  <textarea [(ngModel)]="solicitud.respuestaTemporal" rows="2" placeholder="escribe aqui tu respuesta o notas..." class="w-full px-3 py-2 border border-gray-300 rounded text-sm outline-none focus:border-gray-500"></textarea>
+                  <textarea [(ngModel)]="solicitud.respuestaTemporal" rows="2" placeholder="escribe aqui una nueva respuesta..." class="w-full px-3 py-2 border border-gray-300 rounded text-sm outline-none focus:border-gray-500"></textarea>
                 </div>
                 
                 <button (click)="guardarRespuesta(solicitud)" class="px-6 py-2 bg-black text-white text-sm font-medium rounded hover:bg-gray-800 transition whitespace-nowrap h-10">
@@ -53,17 +75,6 @@
                 </button>
               </div>
             </div>
-          } 
-          
-          @else {
-            @if (solicitud.respuestaProgramador) {
-              <div class="mt-6 pt-4 border-t border-gray-300">
-                <p class="text-sm font-bold text-black mb-1">respuesta del desarrollador:</p>
-                <p class="text-gray-700 italic bg-white p-3 rounded border border-gray-200">{{ solicitud.respuestaProgramador }}</p>
-              </div>
-            } @else {
-              <p class="text-xs text-gray-500 mt-4 italic">esperando la respuesta del desarrollador...</p>
-            }
           }
           
         </div>

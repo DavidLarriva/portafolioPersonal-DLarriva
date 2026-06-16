@@ -1,5 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-// importamos forms para que el programador pueda escribir respuestas
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ContactService } from '../../../../core/services/contact.service';
@@ -11,53 +10,60 @@ import { ContactService } from '../../../../core/services/contact.service';
   templateUrl: './dashboard-page.html',
   styleUrls: ['./dashboard-page.css']
 })
-export class DashboardPageComponent implements OnInit {
+export class DashboardPageComponent {
   
   authService = inject(AuthService);
   private contactService = inject(ContactService);
 
-  // señal para guardar las solicitudes que llegan de firebase
   solicitudes = signal<any[]>([]);
   
-  // definimos tu correo oficial
-  correoProgramador = 'dalarrivac@gmail.com';
+  // creamos una señal para nuestro mensaje elegante
+  notificacion = signal<string>('');
+  
+  correoProgramador = 'programador@gmail.com';
 
-  ngOnInit() {
-    this.cargarSolicitudes();
+  constructor() {
+    // effect vigila la señal currentUser y reacciona cuando firebase entrega el correo
+    effect(() => {
+      const usuarioActual = this.authService.currentUser();
+      if (usuarioActual?.email) {
+        this.cargarSolicitudes(usuarioActual.email);
+      }
+    });
   }
 
-  // evaluamos si la persona conectada es el programador
   esProgramador(): boolean {
     const usuarioActual = this.authService.currentUser();
     return usuarioActual?.email === this.correoProgramador;
   }
 
-  cargarSolicitudes() {
-    const usuarioActual = this.authService.currentUser();
-    if (!usuarioActual?.email) return;
-
+  cargarSolicitudes(correoActual: string) {
     if (this.esProgramador()) {
-      // si eres tu cargamos todos los mensajes
       this.contactService.obtenerTodasLasSolicitudes().subscribe(data => {
         this.solicitudes.set(data);
       });
     } else {
-      // si es el cliente solo cargamos los suyos
-      this.contactService.obtenerMisSolicitudesEnviadas(usuarioActual.email).subscribe(data => {
+      this.contactService.obtenerMisSolicitudesEnviadas(correoActual).subscribe(data => {
         this.solicitudes.set(data);
       });
     }
   }
 
-  // funcion para que tu respondas y cambies el estado
   guardarRespuesta(solicitud: any) {
-    // por defecto si no le cambias el estado lo pasamos a respondida
     const nuevoEstado = solicitud.estadoTemporal || 'Respondida';
-    const respuesta = solicitud.respuestaTemporal || '';
+    const respuesta = solicitud.respuestaTemporal || solicitud.respuestaProgramador || '';
 
     this.contactService.actualizarEstadoSolicitud(solicitud.id, nuevoEstado, respuesta).subscribe({
       next: () => {
-        alert('solicitud actualizada en la base de datos');
+        // cambiamos el alert por nuestra notificacion en pantalla
+        this.notificacion.set('respuesta guardada correctamente');
+        
+        // limpiamos los campos temporales
+        solicitud.respuestaTemporal = '';
+        solicitud.estadoTemporal = '';
+
+        // desaparecemos la notificacion despues de 3 segundos
+        setTimeout(() => this.notificacion.set(''), 3000);
       },
       error: (err) => console.error('error al actualizar', err)
     });
