@@ -1,20 +1,32 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { from } from 'rxjs';
+// importamos auth para saber los datos de la sesion actual
+import { Auth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
   
-  // inyectamos la herramienta de base de datos
   private firestore = inject(Firestore);
+  private auth = inject(Auth);
 
   enviarMensaje(datosContacto: any) {
-    // creamos una referencia a una coleccion llamada mensajes
     const mensajesRef = collection(this.firestore, 'mensajes');
     
-    // guardamos los datos agregando la fecha exacta del envio
-    return from(addDoc(mensajesRef, { ...datosContacto, fecha: new Date() }));
+    // extraemos la cuenta de la persona que esta logueada
+    const usuarioActual = this.auth.currentUser;
+    
+    // armamos el documento exactamente como lo pide tu rubrica
+    const solicitudFinal = {
+      ...datosContacto,
+      fecha: new Date(),
+      estado: 'Pendiente',
+      usuarioUid: usuarioActual?.uid,
+      usuarioCorreo: usuarioActual?.email
+    };
+
+    return from(addDoc(mensajesRef, solicitudFinal));
   }
 }

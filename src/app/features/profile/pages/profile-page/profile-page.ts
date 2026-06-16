@@ -1,14 +1,17 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-// importamos herramientas para el formulario
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+// importamos routerlink para poder crear enlaces html
+import { RouterLink } from '@angular/router';
 import { PortfolioService } from '../../../../core/services/portfolio';
 import { ContactService } from '../../../../core/services/contact.service';
+// traemos la autenticacion para saber si hay alguien conectado
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  // agregamos reactiveformsmodule para que el html entienda el formulario
-  imports: [ReactiveFormsModule],
+  // agregamos routerlink aqui
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './profile-page.html',
   styleUrls: ['./profile-page.css']
 })
@@ -17,16 +20,19 @@ export class ProfilePage implements OnInit {
   private portfolioService = inject(PortfolioService);
   private contactService = inject(ContactService);
   private fb = inject(FormBuilder);
+  
+  // guardamos el servicio de auth de forma publica para usarlo en el html
+  authService = inject(AuthService);
 
   programadores = signal<any[]>([]);
-  // señal para mostrar un mensaje de exito cuando se envia el correo
   mensajeEnviado = signal<boolean>(false);
 
-  // creamos el formulario de contacto con validaciones
+  // agregamos programadorid al formulario segun tu rubrica
   contactoForm = this.fb.group({
     nombre: ['', Validators.required],
     correo: ['', [Validators.required, Validators.email]],
-    mensaje: ['', Validators.required]
+    mensaje: ['', Validators.required],
+    programadorId: ['', Validators.required]
   });
 
   ngOnInit() {
@@ -60,17 +66,16 @@ export class ProfilePage implements OnInit {
     return prog?.proyectos || prog?.attributes?.proyectos?.data || [];
   }
 
-  // funcion que se ejecuta al enviar el formulario
   enviarContacto() {
     if (this.contactoForm.invalid) return;
 
     this.contactService.enviarMensaje(this.contactoForm.value).subscribe({
       next: () => {
-        // vaciamos el formulario y mostramos el mensaje de exito
         this.contactoForm.reset();
-        this.mensajeEnviado.set(true);
+        // restablecemos el selector del programador a su valor por defecto
+        this.contactoForm.patchValue({ programadorId: '' });
         
-        // ocultamos el mensaje despues de 3 segundos
+        this.mensajeEnviado.set(true);
         setTimeout(() => this.mensajeEnviado.set(false), 3000);
       },
       error: (err) => console.error('error al enviar', err)
