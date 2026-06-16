@@ -36,8 +36,17 @@ export class ProfilePage {
 
   obtenerUrlImagen(prog: any): string {
     const rutaImagen = prog?.foto_perfil?.url || prog?.attributes?.foto_perfil?.data?.attributes?.url;
-    if (rutaImagen) return environment.strapiUrl + rutaImagen;
+    if (rutaImagen) {
+      // en strapi cloud la url ya es absoluta; en local es relativa y hay que anteponer el host
+      return rutaImagen.startsWith('http') ? rutaImagen : environment.strapiUrl + rutaImagen;
+    }
     return '';
+  }
+
+  // normaliza enlaces externos: si el usuario no puso http(s), se lo agregamos
+  urlExterna(url: string): string {
+    if (!url) return '';
+    return /^https?:\/\//i.test(url) ? url : 'https://' + url;
   }
 
   extraerTextoRichText(bloques: any): string {

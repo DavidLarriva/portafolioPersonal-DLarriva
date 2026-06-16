@@ -30,16 +30,16 @@
             {{ prog.especialidad || prog.attributes?.especialidad }}
           </p>
 
-          <!-- correo y redes profesionales -->
+          <!-- correo y redes profesionales (nombres reales en strapi: correo, github_url, linkedin_url) -->
           <div class="flex gap-4 mt-2 text-sm font-medium">
-            @if (prog.correo_contacto || prog.attributes?.correo_contacto) {
-              <a [href]="'mailto:' + (prog.correo_contacto || prog.attributes?.correo_contacto)" class="text-gray-700 hover:text-black hover:underline">correo</a>
+            @if (prog.correo || prog.correo_contacto || prog.attributes?.correo) {
+              <a [href]="'mailto:' + (prog.correo || prog.correo_contacto || prog.attributes?.correo)" class="text-gray-700 hover:text-black hover:underline">correo</a>
             }
-            @if (prog.github || prog.attributes?.github) {
-              <a [href]="prog.github || prog.attributes?.github" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">github</a>
+            @if (prog.github_url || prog.github || prog.attributes?.github_url) {
+              <a [href]="urlExterna(prog.github_url || prog.github || prog.attributes?.github_url)" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">github</a>
             }
-            @if (prog.linkedin || prog.attributes?.linkedin) {
-              <a [href]="prog.linkedin || prog.attributes?.linkedin" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">linkedin</a>
+            @if (prog.linkedin_url || prog.linkedin || prog.attributes?.linkedin_url) {
+              <a [href]="urlExterna(prog.linkedin_url || prog.linkedin || prog.attributes?.linkedin_url)" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">linkedin</a>
             }
           </div>
         </div>

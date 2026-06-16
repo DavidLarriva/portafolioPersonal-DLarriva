@@ -123,11 +123,11 @@
 
               <div class="flex gap-4 text-sm font-medium">
                 @if (proy.enlace_repositorio || proy.attributes?.enlace_repositorio) {
-                  <a [href]="proy.enlace_repositorio || proy.attributes?.enlace_repositorio" target="_blank" rel="noopener"
+                  <a [href]="urlExterna(proy.enlace_repositorio || proy.attributes?.enlace_repositorio)" target="_blank" rel="noopener"
                      class="text-black hover:underline">repositorio</a>
                 }
                 @if (proy.enlace_demo || proy.attributes?.enlace_demo) {
-                  <a [href]="proy.enlace_demo || proy.attributes?.enlace_demo" target="_blank" rel="noopener"
+                  <a [href]="urlExterna(proy.enlace_demo || proy.attributes?.enlace_demo)" target="_blank" rel="noopener"
                      class="text-black hover:underline">demo</a>
                 }
               </div>

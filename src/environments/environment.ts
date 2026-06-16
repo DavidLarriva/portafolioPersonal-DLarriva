@@ -2,8 +2,8 @@
 // IMPORTANTE: reemplaza strapiUrl por la URL real de tu Strapi Cloud cuando lo despliegues.
 export const environment = {
   production: true,
-  // URL base de Strapi en la nube (sin la barra final). ej: https://mi-portafolio.strapiapp.com
-  strapiUrl: 'https://CAMBIAR-POR-TU-URL-DE-STRAPI-CLOUD',
+  // URL base de Strapi en la nube (sin /admin, sin /api y sin barra final)
+  strapiUrl: 'https://heroic-bee-86e6f6e8c9.strapiapp.com',
   firebase: {
     apiKey: "AIzaSyArg-Kiy9sR8u8dQePsn5g7RE_5rsBZYdE",
     authDomain: "portafolio-david-5ba22.firebaseapp.com",
