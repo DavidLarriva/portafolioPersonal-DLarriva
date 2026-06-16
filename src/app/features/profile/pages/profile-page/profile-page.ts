@@ -39,7 +39,7 @@ export class ProfilePage implements OnInit {
           return bloque.children.map((hijo: any) => hijo.text || '').join('');
         }
         return '';
-      }).join('\n\n');
+      }).join('\n');
     }
     return '';
   }

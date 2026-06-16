@@ -14,14 +14,16 @@ proyecto integrador de programacion y plataformas web. portafolio minimalista en
 - creacion de vistas principales home, perfil y login.
 - configuracion del enrutador de angular para navegacion.
 
-## Paso 3: Configuración del CMS Headless (Strapi)
-En esta fase se configuró el backend del proyecto utilizando Strapi, cumpliendo con la separación de responsabilidades solicitada en la arquitectura.
+## paso 3: configuracion del cms headless (strapi)
+en esta fase se configuro el backend del proyecto utilizando strapi, cumpliendo con la separacion de responsabilidades solicitada en la arquitectura.
 
-**Colecciones creadas:**
-* **Programador:** Almacena la información del perfil (nombre, especialidad, descripciones, foto, redes sociales).
-* **Proyecto:** Almacena los proyectos de portafolio. Se implementó una **relación de muchos a muchos** (has and belongs to many) con la colección Programador.
-* **Servicio:** Almacena las áreas de especialización.
+**colecciones creadas:**
+* **programador:** almacena la informacion del perfil (nombre, especialidad, descripciones, foto, redes sociales).
+* **proyecto:** almacena los proyectos de portafolio. se implemento una **relacion de muchos a muchos** (has and belongs to many) con la coleccion programador.
+* **servicio:** almacena las areas de especializacion.
 
-**Configuraciones de seguridad:**
-Se modificaron los permisos en la sección *Users & Permissions Plugin > Roles > Public* para permitir peticiones no autenticadas (`find` y `findOne`) a los endpoints del contenido dinámico, permitiendo que Angular pueda consumir la API pública del portafolio.
+**configuraciones de seguridad:**
+se modificaron los permisos en la seccion *users & permissions plugin > roles > public* para permitir peticiones no autenticadas (`find` y `findone`) a los endpoints del contenido dinamico, permitiendo que angular pueda consumir la api publica del portafolio.
 
+## paso 6: consumo de la api (conexion angular - strapi)
+se configuro httpclient para realizar peticiones al backend. se creo un servicio para consumir los endpoints publicos de strapi. se diseño la interfaz de las paginas home y perfil aplicando directivas de control de flujo para renderizar los datos del programador y sus proyectos relacionados de forma dinamica, armando correctamente las url de las imagenes.
