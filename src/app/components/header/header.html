@@ -1,15 +1,33 @@
+<!-- encabezado principal minimalista -->
 <header class="flex items-center justify-between p-6 border-b border-gray-300 bg-white">
-  <h1 class="text-xl font-bold tracking-widest text-gray-800">DLARRIVA</h1>
-  <nav class="flex gap-4">
-    <a routerLink="/" class="text-gray-500 hover:text-black transition-colors">Inicio</a>
+  <h1 class="text-xl font-bold tracking-widest text-gray-800">
+    DLARRIVA
+  </h1>
+  <nav class="flex gap-4 items-center text-sm">
+    <a routerLink="/" routerLinkActive="text-black font-bold" [routerLinkActiveOptions]="{ exact: true }" class="text-gray-500 hover:text-black transition-colors">
+      inicio
+    </a>
     
     @if (authService.currentUser()) {
-      <a routerLink="/contacto" class="text-gray-500 hover:text-black transition-colors">Contacto</a>
       
-      <a routerLink="/dashboard" class="text-gray-500 hover:text-black transition-colors">Panel</a>
-      <button (click)="cerrarSesion()" class="text-gray-500 hover:text-black transition-colors cursor-pointer">Salir</button>
+      <!-- mostramos contacto solo si no es el administrador -->
+      @if (!esProgramador()) {
+        <a routerLink="/contacto" routerLinkActive="text-black font-bold" class="text-gray-500 hover:text-black transition-colors">
+          contacto
+        </a>
+      }
+      
+      <a routerLink="/dashboard" routerLinkActive="text-black font-bold" class="text-gray-500 hover:text-black transition-colors">
+        panel
+      </a>
+      <button (click)="cerrarSesion()" class="text-gray-500 hover:text-black transition-colors cursor-pointer">
+        salir
+      </button>
+
     } @else {
-      <a routerLink="/auth" class="text-gray-500 hover:text-black transition-colors">Acceder</a>
+      <a routerLink="/auth" routerLinkActive="text-black font-bold" class="text-gray-500 hover:text-black transition-colors">
+        acceder
+      </a>
     }
   </nav>
 </header>

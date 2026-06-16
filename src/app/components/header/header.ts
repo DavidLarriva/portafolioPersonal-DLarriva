@@ -14,6 +14,15 @@ export class HeaderComponent {
   authService = inject(AuthService);
   private router = inject(Router);
 
+  // definimos tu correo oficial
+  correoProgramador = 'programador@gmail.com';
+
+  // evaluamos si quien esta conectado es el dueño
+  esProgramador(): boolean {
+    const usuarioActual = this.authService.currentUser();
+    return usuarioActual?.email === this.correoProgramador;
+  }
+
   cerrarSesion() {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/']);
