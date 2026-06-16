@@ -1,10 +1,25 @@
-<!-- encabezado principal -->
-<header class="flex items-center justify-between p-6 border-b border-gray-300">
+<!-- encabezado principal minimalista -->
+<header class="flex items-center justify-between p-6 border-b border-gray-300 bg-white">
   <h1 class="text-xl font-bold tracking-widest text-gray-800">
     DLARRIVA
   </h1>
-  <nav class="flex gap-4">
-    <a routerLink="/" class="text-gray-500 hover:text-black transition-colors">Inicio</a>
-    <a routerLink="/login" class="text-gray-500 hover:text-black transition-colors">Acceder</a>
+  <nav class="flex gap-4 items-center text-sm">
+    <a routerLink="/" routerLinkActive="text-black font-bold" [routerLinkActiveOptions]="{ exact: true }" class="text-gray-500 hover:text-black transition-colors">
+      inicio
+    </a>
+    
+    <!-- evaluamos si hay un usuario logueado -->
+    @if (authService.currentUser()) {
+      <a routerLink="/dashboard" routerLinkActive="text-black font-bold" class="text-gray-500 hover:text-black transition-colors">
+        mis solicitudes
+      </a>
+      <button (click)="cerrarSesion()" class="text-gray-500 hover:text-black transition-colors cursor-pointer">
+        cerrar sesion
+      </button>
+    } @else {
+      <a routerLink="/auth" routerLinkActive="text-black font-bold" class="text-gray-500 hover:text-black transition-colors">
+        acceder
+      </a>
+    }
   </nav>
 </header>
