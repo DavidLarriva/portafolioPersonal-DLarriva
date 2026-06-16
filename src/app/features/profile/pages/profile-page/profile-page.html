@@ -4,9 +4,7 @@
 
     @for (prog of programadores(); track prog.id) {
       <div class="flex items-center gap-6 mb-8">
-        
         <img [src]="obtenerUrlImagen(prog)" alt="foto de perfil" class="w-32 h-32 rounded-full object-cover bg-gray-300 shadow-sm border border-gray-200">
-        
         <div>
           <h2 class="text-2xl font-bold">
             {{ prog.nombre_completo || prog.attributes?.nombre_completo }}
@@ -17,9 +15,38 @@
         </div>
       </div>
       
-      <div class="text-gray-700 leading-relaxed bg-white p-6 rounded-lg border border-gray-200 shadow-sm whitespace-pre-line">
+      <div class="text-gray-700 leading-relaxed bg-white p-6 rounded-lg border border-gray-200 shadow-sm whitespace-pre-line mb-12">
         <p>{{ extraerTextoRichText(prog.descripcion_completa || prog.attributes?.descripcion_completa) }}</p>
       </div>
+
+      <h3 class="text-2xl font-bold border-b border-gray-300 pb-2 mb-6">proyectos destacados</h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @for (proyecto of obtenerProyectos(prog); track proyecto.id) {
+          <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition">
+            
+            <h4 class="text-xl font-bold mb-2">
+              {{ proyecto.nombre || proyecto.attributes?.nombre }}
+            </h4>
+            
+            <span class="inline-block px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded mb-4">
+              {{ proyecto.tipo_proyecto || proyecto.attributes?.tipo_proyecto }}
+            </span>
+            
+            <p class="text-gray-600 text-sm mb-4">
+              {{ proyecto.descripcion_breve || proyecto.attributes?.descripcion_breve }}
+            </p>
+            
+            <p class="text-gray-800 text-sm font-medium">
+              tecnologias: {{ proyecto.tecnologias || proyecto.attributes?.tecnologias }}
+            </p>
+            
+          </div>
+        } @empty {
+          <p class="text-gray-500 italic col-span-2">no hay proyectos registrados aun.</p>
+        }
+      </div>
+
     } @empty {
       <p class="text-gray-500 italic">cargando el perfil profesional...</p>
     }
