@@ -1,12 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
+// importamos routerlink para poder navegar desde el html
 import { RouterLink } from '@angular/router';
+import { PortfolioService } from '../../../../core/services/portfolio';
 
 @Component({
   selector: 'app-home-page',
+  standalone: true,
+  // agregamos routerlink al arreglo de importaciones
   imports: [RouterLink],
   templateUrl: './home-page.html',
-  styleUrl: './home-page.css'
+  styleUrls: ['./home-page.css']
 })
-export class HomePage {
-  // logica de la pagina de inicio
+export class HomePage implements OnInit {
+  
+  private portfolioService = inject(PortfolioService);
+
+  programadores = signal<any[]>([]);
+
+  ngOnInit() {
+    this.portfolioService.getProgramadores().subscribe((respuesta: any) => {
+      this.programadores.set(respuesta.data);
+    });
+  }
 }

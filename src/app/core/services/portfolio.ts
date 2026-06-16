@@ -12,9 +12,9 @@ export class PortfolioService {
   // guardamos la ruta base de nuestro strapi
   private apiUrl = 'http://localhost:1337/api';
 
-  // metodo para traer los programadores y sus datos enlazados
+  // metodo para traer los programadores usando la ruta exacta de strapi
   getProgramadores(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/programadores?populate=*`);
+    return this.http.get(`${this.apiUrl}/programadors?populate=*`);
   }
 
   // metodo para traer los proyectos
