@@ -32,3 +32,5 @@ se integro la plataforma firebase de google para manejar la seguridad y las sesi
 - se configuro `@angular/fire` en la aplicacion.
 - se creo un servicio `auth.service.ts` utilizando señales (`signals`) y flujos reactivos (`rxjs`) para gestionar el registro, inicio de sesion y cierre de sesion.
 - se implemento un formulario reactivo en la pagina de login que permite a usuarios externos crear cuentas y a los programadores acceder al sistema de forma segura.
+## paso 8: base de datos en tiempo real (firestore)
+se implemento un formulario de contacto en el perfil del programador. este formulario utiliza formularios reactivos de angular para la validacion de campos y se conecta a cloud firestore para almacenar los mensajes recibidos de forma segura y en tiempo real.
