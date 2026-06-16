@@ -9,13 +9,11 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
-export class AppHeaderComponent {
+export class HeaderComponent {
   
-  // pedimos prestadas las herramientas de sesion y navegacion
   authService = inject(AuthService);
   private router = inject(Router);
 
-  // funcion para salir de la cuenta y volver al inicio
   cerrarSesion() {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/']);

@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
-import { from } from 'rxjs';
-// importamos auth para saber los datos de la sesion actual
+import { Firestore, collection, addDoc, collectionData, query, where, doc, updateDoc } from '@angular/fire/firestore';
+import { from, Observable } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
 
 @Injectable({
@@ -14,11 +13,8 @@ export class ContactService {
 
   enviarMensaje(datosContacto: any) {
     const mensajesRef = collection(this.firestore, 'mensajes');
-    
-    // extraemos la cuenta de la persona que esta logueada
     const usuarioActual = this.auth.currentUser;
     
-    // armamos el documento exactamente como lo pide tu rubrica
     const solicitudFinal = {
       ...datosContacto,
       fecha: new Date(),
@@ -28,5 +24,25 @@ export class ContactService {
     };
 
     return from(addDoc(mensajesRef, solicitudFinal));
+  }
+
+  obtenerMisSolicitudesEnviadas(correo: string): Observable<any[]> {
+    const mensajesRef = collection(this.firestore, 'mensajes');
+    const q = query(mensajesRef, where('usuarioCorreo', '==', correo));
+    return collectionData(q, { idField: 'id' });
+  }
+
+  // funcion corregida para que el administrador vea todo
+  obtenerTodasLasSolicitudes(): Observable<any[]> {
+    const mensajesRef = collection(this.firestore, 'mensajes');
+    return collectionData(mensajesRef, { idField: 'id' });
+  }
+
+  actualizarEstadoSolicitud(mensajeId: string, nuevoEstado: string, respuesta: string) {
+    const mensajeRef = doc(this.firestore, 'mensajes', mensajeId);
+    return from(updateDoc(mensajeRef, {
+      estado: nuevoEstado,
+      respuestaProgramador: respuesta
+    }));
   }
 }
