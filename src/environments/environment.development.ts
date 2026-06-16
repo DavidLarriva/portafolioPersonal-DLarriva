@@ -1,9 +1,9 @@
-// entorno de PRODUCCION (se usa al hacer "ng build")
-// IMPORTANTE: reemplaza strapiUrl por la URL real de tu Strapi Cloud cuando lo despliegues.
+// entorno de DESARROLLO (se usa al hacer "ng serve")
+// aqui apuntamos a tu Strapi corriendo localmente.
 export const environment = {
-  production: true,
-  // URL base de Strapi en la nube (sin la barra final). ej: https://mi-portafolio.strapiapp.com
-  strapiUrl: 'https://CAMBIAR-POR-TU-URL-DE-STRAPI-CLOUD',
+  production: false,
+  // URL base de Strapi local (sin la barra final)
+  strapiUrl: 'http://localhost:1337',
   firebase: {
     apiKey: "AIzaSyArg-Kiy9sR8u8dQePsn5g7RE_5rsBZYdE",
     authDomain: "portafolio-david-5ba22.firebaseapp.com",

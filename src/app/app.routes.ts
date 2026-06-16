@@ -11,7 +11,8 @@ import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
-  { path: 'profile', component: ProfilePage },
+  // perfil individual del programador, identificado por su slug
+  { path: 'perfil/:slug', component: ProfilePage },
   { path: 'auth', component: LoginPage, canActivate: [guestGuard] },
   { path: 'dashboard', component: DashboardPageComponent, canActivate: [authGuard] },
   // agregamos la ruta protegida de contacto

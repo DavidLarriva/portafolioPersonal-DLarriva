@@ -1,31 +1,42 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+// rxResource convierte el observable de strapi en un recurso reactivo basado en signals
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PortfolioService } from '../../../../core/services/portfolio';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './profile-page.html',
   styleUrls: ['./profile-page.css']
 })
-export class ProfilePage implements OnInit {
-  
-  // traemos solo el servicio del portafolio
+export class ProfilePage {
+
+  // traemos el servicio del portafolio y la ruta activa
   private portfolioService = inject(PortfolioService);
+  private route = inject(ActivatedRoute);
 
-  // la señal para guardar los datos de strapi
-  programadores = signal<any[]>([]);
+  // leemos el slug de la url de forma reactiva
+  slug = toSignal(this.route.paramMap.pipe(map(p => p.get('slug') ?? '')), { initialValue: '' });
 
-  ngOnInit() {
-    this.portfolioService.getProgramadores().subscribe((respuesta: any) => {
-      this.programadores.set(respuesta.data);
-    });
-  }
+  // rxResource vuelve a pedir los datos cada vez que cambia el slug (params)
+  programadorResource = rxResource({
+    params: () => this.slug(),
+    stream: ({ params }) => this.portfolioService.getProgramadorPorSlug(params).pipe(
+      map((respuesta: any) => respuesta.data?.[0] ?? null)
+    ),
+    defaultValue: null
+  });
+
+  // exponemos el valor para el html
+  programador = this.programadorResource.value;
 
   obtenerUrlImagen(prog: any): string {
-    const rutaBase = 'http://localhost:1337';
     const rutaImagen = prog?.foto_perfil?.url || prog?.attributes?.foto_perfil?.data?.attributes?.url;
-    if (rutaImagen) return rutaBase + rutaImagen;
+    if (rutaImagen) return environment.strapiUrl + rutaImagen;
     return '';
   }
 

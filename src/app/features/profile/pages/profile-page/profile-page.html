@@ -1,10 +1,27 @@
 <main class="min-h-screen bg-gray-50 text-gray-900 font-sans p-8">
   <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold border-b border-gray-300 pb-4 mb-8">perfil profesional</h1>
 
-    @for (prog of programadores(); track prog.id) {
+    <a routerLink="/" class="inline-block text-sm text-gray-500 hover:text-black transition mb-6">&larr; volver al inicio</a>
+
+    @if (programadorResource.isLoading()) {
+      <p class="text-gray-500 italic mb-8">cargando el perfil profesional...</p>
+    } @else if (programadorResource.error()) {
+      <div class="flex flex-col items-start gap-3 mb-8">
+        <p class="text-red-600 font-medium">no se pudo cargar el perfil profesional.</p>
+        <button (click)="programadorResource.reload()" class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition">
+          reintentar
+        </button>
+      </div>
+    } @else if (programador(); as prog) {
+
+      <h1 class="text-3xl font-bold border-b border-gray-300 pb-4 mb-8">perfil profesional</h1>
+
       <div class="flex items-center gap-6 mb-8">
-        <img [src]="obtenerUrlImagen(prog)" alt="foto de perfil" class="w-32 h-32 rounded-full object-cover bg-gray-300 shadow-sm border border-gray-200">
+        @if (obtenerUrlImagen(prog)) {
+          <img [src]="obtenerUrlImagen(prog)" alt="foto de perfil" class="w-32 h-32 rounded-full object-cover bg-gray-300 shadow-sm border border-gray-200">
+        } @else {
+          <div class="w-32 h-32 rounded-full bg-gray-300 shadow-sm border border-gray-200"></div>
+        }
         <div>
           <h2 class="text-2xl font-bold">
             {{ prog.nombre_completo || prog.attributes?.nombre_completo }}
@@ -12,15 +29,28 @@
           <p class="text-gray-600 font-medium">
             {{ prog.especialidad || prog.attributes?.especialidad }}
           </p>
+
+          <!-- correo y redes profesionales -->
+          <div class="flex gap-4 mt-2 text-sm font-medium">
+            @if (prog.correo_contacto || prog.attributes?.correo_contacto) {
+              <a [href]="'mailto:' + (prog.correo_contacto || prog.attributes?.correo_contacto)" class="text-gray-700 hover:text-black hover:underline">correo</a>
+            }
+            @if (prog.github || prog.attributes?.github) {
+              <a [href]="prog.github || prog.attributes?.github" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">github</a>
+            }
+            @if (prog.linkedin || prog.attributes?.linkedin) {
+              <a [href]="prog.linkedin || prog.attributes?.linkedin" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">linkedin</a>
+            }
+          </div>
         </div>
       </div>
-      
+
       <div class="text-gray-700 leading-relaxed bg-white p-6 rounded-lg border border-gray-200 shadow-sm whitespace-pre-line mb-12">
         <p>{{ extraerTextoRichText(prog.descripcion_completa || prog.attributes?.descripcion_completa) }}</p>
       </div>
 
       <h3 class="text-2xl font-bold border-b border-gray-300 pb-2 mb-6">proyectos destacados</h3>
-      
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
         @for (proyecto of obtenerProyectos(prog); track proyecto.id) {
           <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition">
@@ -33,8 +63,13 @@
           <p class="text-gray-500 italic col-span-2">no hay proyectos registrados aun.</p>
         }
       </div>
-    } @empty {
-      <p class="text-gray-500 italic mb-8">cargando el perfil profesional...</p>
+
+    } @else {
+      <div class="text-center py-16">
+        <p class="text-gray-500 italic mb-4">no se encontro el perfil solicitado.</p>
+        <a routerLink="/" class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition">volver al inicio</a>
+      </div>
     }
+
   </div>
 </main>

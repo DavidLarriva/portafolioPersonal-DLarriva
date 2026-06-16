@@ -1,4 +1,6 @@
-import { Component, OnInit, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PortfolioService } from '../../../../core/services/portfolio';
 import { ContactService } from '../../../../core/services/contact.service';
@@ -11,14 +13,22 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './contact-page.html',
   styleUrls: ['./contact-page.css']
 })
-export class ContactPageComponent implements OnInit {
-  
+export class ContactPageComponent {
+
   private portfolioService = inject(PortfolioService);
   private contactService = inject(ContactService);
   private fb = inject(FormBuilder);
   authService = inject(AuthService);
 
-  programadores = signal<any[]>([]);
+  // cargamos los programadores con rxResource para llenar el select
+  programadoresResource = rxResource({
+    stream: () => this.portfolioService.getProgramadores().pipe(
+      map((respuesta: any) => respuesta.data ?? [])
+    ),
+    defaultValue: [] as any[]
+  });
+  programadores = this.programadoresResource.value;
+
   mensajeEnviado = signal<boolean>(false);
   
   correoProgramador = 'programador@gmail.com';
@@ -39,12 +49,6 @@ export class ContactPageComponent implements OnInit {
         // autocompletamos el campo del formulario de forma automatica
         this.contactoForm.patchValue({ correo: usuarioActual.email });
       }
-    });
-  }
-
-  ngOnInit() {
-    this.portfolioService.getProgramadores().subscribe((respuesta: any) => {
-      this.programadores.set(respuesta.data);
     });
   }
 
