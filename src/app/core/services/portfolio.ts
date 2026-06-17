@@ -7,28 +7,28 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class PortfolioService {
-  // inyectamos la herramienta httpclient
+  
   private http = inject(HttpClient);
 
-  // la ruta base sale del environment para que cambie sola entre local y la nube
+  // la ruta base 
   private apiUrl = `${environment.strapiUrl}/api`;
 
-  // metodo para traer los programadores usando la ruta exacta de strapi
+  // metodo para traer los programadores 
   getProgramadores(): Observable<any> {
     return this.http.get(`${this.apiUrl}/programadors?populate=*`);
   }
 
-  // traemos un solo programador por su slug (para el perfil individual)
+  // traemos un solo programador 
   getProgramadorPorSlug(slug: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/programadors?filters[slug][$eq]=${slug}&populate=*`);
   }
 
-  // metodo para traer los proyectos
+  // metodo proyectos
   getProyectos(): Observable<any> {
     return this.http.get(`${this.apiUrl}/proyectos?populate=*`);
   }
 
-  // traemos solo los proyectos marcados como destacados (para el home)
+  // destacados
   getProyectosDestacados(): Observable<any> {
     return this.http.get(`${this.apiUrl}/proyectos?filters[destacado][$eq]=true&populate=*`);
   }

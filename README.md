@@ -43,7 +43,7 @@ Colecciones definidas:
 - **Proyecto:** nombre, `slug`, descripción breve, descripción completa, imagen principal, tipo de proyecto, tecnologías, enlace al repositorio, enlace al demo, campo **`destacado`** (para mostrarlo en el Home) y una relación **muchos a muchos** con Programador.
 - **Servicio:** áreas de especialización (ej. desarrollo frontend, backend, diseño de interfaces).
 
-> **Permisos:** en *Settings → Users & Permissions → Roles → Public* se habilitaron `find` y `findOne` para Programador, Proyecto y Servicio, de modo que Angular pueda consumir la API pública sin autenticación.
+
 
 ---
 
@@ -56,7 +56,6 @@ La URL de Strapi **no está quemada en el código**; sale de los archivos de ent
 
 El intercambio lo realiza `angular.json` mediante `fileReplacements` en la configuración de desarrollo.
 
-> ⚠️ Antes de desplegar, edita `strapiUrl` en `src/environments/environment.ts` con la URL real de tu Strapi Cloud.
 
 ---
 
@@ -116,7 +115,7 @@ La configuración de Hosting ya está incluida:
 - Inicia sesión con la cuenta de programador (correo configurado en la app).
 - En *Panel* ve **todas** las solicitudes recibidas, cambia su estado (Pendiente/Respondida) y registra una respuesta que se guarda en Firestore en tiempo real.
 
-> El rol de programador se identifica por el correo definido en la constante `correoProgramador` (en header, dashboard y contacto).
+
 
 ---
 

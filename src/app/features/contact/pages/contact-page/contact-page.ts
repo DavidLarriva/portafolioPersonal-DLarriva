@@ -20,7 +20,7 @@ export class ContactPageComponent {
   private fb = inject(FormBuilder);
   authService = inject(AuthService);
 
-  // cargamos los programadores con rxResource para llenar el select
+  // cargamos programadores con rxResoruce
   programadoresResource = rxResource({
     stream: () => this.portfolioService.getProgramadores().pipe(
       map((respuesta: any) => respuesta.data ?? [])
@@ -61,14 +61,14 @@ export class ContactPageComponent {
   enviarContacto() {
     if (this.contactoForm.invalid) return;
 
-    // como el correo esta deshabilitado, usamos getrawvalue para extraer todos los datos
+    // extraemos datos con getRawValue
     const datos = this.contactoForm.getRawValue();
 
     this.contactService.enviarMensaje(datos).subscribe({
       next: () => {
         this.contactoForm.reset();
         
-        // despues de limpiar, volvemos a poner el correo autocompletado
+        // correo autocompletado
         const usuarioActual = this.authService.currentUser();
         this.contactoForm.patchValue({ 
           programadorId: '',
