@@ -11,7 +11,13 @@ export class AuthService {
   
   private auth = inject(Auth);
 
-  currentUser = toSignal(authState(this.auth));
+  // observable crudo del estado de sesion de firebase.
+  // su PRIMERA emision ya refleja la sesion restaurada del almacenamiento,
+  // por eso los guards lo usan para esperar antes de decidir si hay sesion o no.
+  estadoSesion = authState(this.auth);
+
+  // version signal del mismo estado, comoda para usar en componentes y plantillas
+  currentUser = toSignal(this.estadoSesion);
 
   login(email: string, pass: string) {
     return from(signInWithEmailAndPassword(this.auth, email, pass));

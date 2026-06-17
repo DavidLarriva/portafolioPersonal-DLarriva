@@ -9,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
   host: {
-    // cuando esta oculto lo deslizamos hacia arriba (style inline, la transicion vive en el css)
+    // cuando esta oculto lo deslizamos hacia arriba 
     '[style.transform]': "oculto() ? 'translateY(-100%)' : ''"
   }
 })
@@ -18,17 +18,17 @@ export class HeaderComponent {
   authService = inject(AuthService);
   private router = inject(Router);
 
-  // definimos tu correo oficial
+  // definimos correo
   correoProgramador = 'programador@gmail.com';
 
-  // controla si el header esta escondido (se oculta al bajar, reaparece al subir)
+  
   oculto = signal(false);
   private ultimoScroll = 0;
 
   @HostListener('window:scroll')
   alHacerScroll() {
     const posicionActual = window.scrollY;
-    // si bajamos y ya pasamos los primeros 80px lo escondemos; si subimos lo mostramos
+    
     this.oculto.set(posicionActual > this.ultimoScroll && posicionActual > 80);
     this.ultimoScroll = posicionActual;
   }
