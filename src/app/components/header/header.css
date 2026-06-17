@@ -1,0 +1,9 @@
+/* el header queda fijo en la parte superior y acompaña el scroll;
+   el desplazamiento (ocultar/mostrar) se aplica como style inline desde el .ts */
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: block;
+  transition: transform 0.3s ease-out;
+}

@@ -56,7 +56,7 @@ export class DashboardPageComponent {
     this.contactService.actualizarEstadoSolicitud(solicitud.id, nuevoEstado, respuesta).subscribe({
       next: () => {
         // cambiamos el alert por nuestra notificacion en pantalla
-        this.notificacion.set('respuesta guardada correctamente');
+        this.notificacion.set('Respuesta guardada correctamente');
         
         // limpiamos los campos temporales
         solicitud.respuestaTemporal = '';

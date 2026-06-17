@@ -1,20 +1,20 @@
 <main class="min-h-screen bg-gray-50 text-gray-900 font-sans p-8">
   <div class="max-w-4xl mx-auto">
 
-    <a routerLink="/" class="inline-block text-sm text-gray-500 hover:text-black transition mb-6">&larr; volver al inicio</a>
+    <a routerLink="/" class="inline-block text-sm text-gray-500 hover:text-black transition mb-6">&larr; Volver al inicio</a>
 
     @if (programadorResource.isLoading()) {
-      <p class="text-gray-500 italic mb-8">cargando el perfil profesional...</p>
+      <p class="text-gray-500 italic mb-8">Cargando el perfil profesional...</p>
     } @else if (programadorResource.error()) {
       <div class="flex flex-col items-start gap-3 mb-8">
-        <p class="text-red-600 font-medium">no se pudo cargar el perfil profesional.</p>
+        <p class="text-red-600 font-medium">No se pudo cargar el perfil profesional.</p>
         <button (click)="programadorResource.reload()" class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition">
-          reintentar
+          Reintentar
         </button>
       </div>
     } @else if (programador(); as prog) {
 
-      <h1 class="text-3xl font-bold border-b border-gray-300 pb-4 mb-8">perfil profesional</h1>
+      <h1 class="text-3xl font-bold border-b border-gray-300 pb-4 mb-8">Perfil profesional</h1>
 
       <div class="flex items-center gap-6 mb-8">
         @if (obtenerUrlImagen(prog)) {
@@ -33,13 +33,13 @@
           <!-- correo y redes profesionales (nombres reales en strapi: correo, github_url, linkedin_url) -->
           <div class="flex gap-4 mt-2 text-sm font-medium">
             @if (prog.correo || prog.correo_contacto || prog.attributes?.correo) {
-              <a [href]="'mailto:' + (prog.correo || prog.correo_contacto || prog.attributes?.correo)" class="text-gray-700 hover:text-black hover:underline">correo</a>
+              <a [href]="'mailto:' + (prog.correo || prog.correo_contacto || prog.attributes?.correo)" class="text-gray-700 hover:text-black hover:underline">Correo</a>
             }
             @if (prog.github_url || prog.github || prog.attributes?.github_url) {
-              <a [href]="urlExterna(prog.github_url || prog.github || prog.attributes?.github_url)" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">github</a>
+              <a [href]="urlExterna(prog.github_url || prog.github || prog.attributes?.github_url)" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">GitHub</a>
             }
             @if (prog.linkedin_url || prog.linkedin || prog.attributes?.linkedin_url) {
-              <a [href]="urlExterna(prog.linkedin_url || prog.linkedin || prog.attributes?.linkedin_url)" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">linkedin</a>
+              <a [href]="urlExterna(prog.linkedin_url || prog.linkedin || prog.attributes?.linkedin_url)" target="_blank" rel="noopener" class="text-gray-700 hover:text-black hover:underline">LinkedIn</a>
             }
           </div>
         </div>
@@ -49,7 +49,7 @@
         <p>{{ extraerTextoRichText(prog.descripcion_completa || prog.attributes?.descripcion_completa) }}</p>
       </div>
 
-      <h3 class="text-2xl font-bold border-b border-gray-300 pb-2 mb-6">proyectos destacados</h3>
+      <h3 class="text-2xl font-bold border-b border-gray-300 pb-2 mb-6">Proyectos</h3>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
         @for (proyecto of obtenerProyectos(prog); track proyecto.id) {
@@ -57,17 +57,17 @@
             <h4 class="text-xl font-bold mb-2">{{ proyecto.nombre || proyecto.attributes?.nombre }}</h4>
             <span class="inline-block px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded mb-4">{{ proyecto.tipo_proyecto || proyecto.attributes?.tipo_proyecto }}</span>
             <p class="text-gray-600 text-sm mb-4">{{ proyecto.descripcion_breve || proyecto.attributes?.descripcion_breve }}</p>
-            <p class="text-gray-800 text-sm font-medium">tecnologias: {{ proyecto.tecnologias || proyecto.attributes?.tecnologias }}</p>
+            <p class="text-gray-800 text-sm font-medium">Tecnologías: {{ proyecto.tecnologias || proyecto.attributes?.tecnologias }}</p>
           </div>
         } @empty {
-          <p class="text-gray-500 italic col-span-2">no hay proyectos registrados aun.</p>
+          <p class="text-gray-500 italic col-span-2">No hay proyectos registrados aún.</p>
         }
       </div>
 
     } @else {
       <div class="text-center py-16">
-        <p class="text-gray-500 italic mb-4">no se encontro el perfil solicitado.</p>
-        <a routerLink="/" class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition">volver al inicio</a>
+        <p class="text-gray-500 italic mb-4">No se encontró el perfil solicitado.</p>
+        <a routerLink="/" class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition">Volver al inicio</a>
       </div>
     }
 

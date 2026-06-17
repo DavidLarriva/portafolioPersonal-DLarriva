@@ -2,17 +2,17 @@
 
   <!-- ===== HERO / PRESENTACION DE LA EMPRESA ===== -->
   <section class="flex flex-col items-center justify-center py-24 px-4 text-center">
-    <h1 class="text-5xl font-bold tracking-tight text-black mb-4">portafolio profesional</h1>
+    <h1 class="text-5xl font-bold tracking-tight text-black mb-4">Portafolio profesional</h1>
     <p class="text-lg text-gray-600 max-w-2xl mb-8">
-      desarrollo de software y analisis de datos con un enfoque minimalista y funcional.
+      Desarrollo de software y análisis de datos con un enfoque minimalista y funcional.
     </p>
 
     <div class="flex gap-4">
       <a href="#proyectos" class="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition">
-        ver proyectos
+        Ver proyectos
       </a>
       <button routerLink="/contacto" class="px-6 py-2 bg-white border border-gray-300 text-black rounded-md hover:bg-gray-100 transition">
-        contactar
+        Contactar
       </button>
     </div>
   </section>
@@ -21,24 +21,24 @@
 
   <!-- ===== PERFIL DEL DESARROLLADOR (cards clicables al perfil individual) ===== -->
   <section id="programadores" class="max-w-4xl mx-auto py-16 px-4">
-    <h2 class="text-3xl font-semibold text-center mb-10 text-black">sobre el desarrollador</h2>
+    <h2 class="text-3xl font-semibold text-center mb-10 text-black">Sobre el desarrollador</h2>
 
     @if (programadoresResource.isLoading()) {
       <div class="flex justify-center items-center py-10">
-        <p class="text-gray-400 italic">conectando con el servidor...</p>
+        <p class="text-gray-400 italic">Conectando con el servidor...</p>
       </div>
     } @else if (programadoresResource.error()) {
       <div class="flex flex-col items-center gap-3 py-10">
-        <p class="text-red-600 font-medium">no se pudo conectar con el servidor.</p>
+        <p class="text-red-600 font-medium">No se pudo conectar con el servidor.</p>
         <button (click)="programadoresResource.reload()" class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition">
-          reintentar
+          Reintentar
         </button>
       </div>
     } @else {
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="flex flex-wrap justify-center gap-6">
         @for (prog of programadores(); track prog.id) {
           <a [routerLink]="['/perfil', obtenerSlug(prog)]"
-             class="flex items-center gap-5 p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md hover:border-gray-400 transition cursor-pointer">
+             class="flex items-center gap-5 p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md hover:border-gray-400 transition cursor-pointer w-full max-w-xl">
 
             @if (obtenerUrlImagen(prog, ['foto_perfil', 'foto', 'imagen'])) {
               <img [src]="obtenerUrlImagen(prog, ['foto_perfil', 'foto', 'imagen'])" alt="foto de perfil"
@@ -57,11 +57,11 @@
               <p class="text-gray-700 text-sm leading-relaxed">
                 {{ prog.descripcion_breve || prog.attributes?.descripcion_breve }}
               </p>
-              <span class="inline-block mt-3 text-xs font-medium text-black">ver perfil completo &rarr;</span>
+              <span class="inline-block mt-3 text-xs font-medium text-black">Ver perfil completo &rarr;</span>
             </div>
           </a>
         } @empty {
-          <p class="text-gray-400 italic col-span-2 text-center">no hay informacion del desarrollador aun.</p>
+          <p class="text-gray-400 italic w-full text-center">No hay información del desarrollador aún.</p>
         }
       </div>
     }
@@ -71,12 +71,12 @@
 
   <!-- ===== SERVICIOS / AREAS DE ESPECIALIZACION ===== -->
   <section id="servicios" class="max-w-4xl mx-auto py-16 px-4">
-    <h2 class="text-3xl font-semibold text-center mb-10 text-black">servicios</h2>
+    <h2 class="text-3xl font-semibold text-center mb-10 text-black">Servicios</h2>
 
     @if (serviciosResource.isLoading()) {
-      <p class="text-center text-gray-400 italic py-6">cargando servicios...</p>
+      <p class="text-center text-gray-400 italic py-6">Cargando servicios...</p>
     } @else if (serviciosResource.error()) {
-      <p class="text-center text-red-600 py-6">no se pudieron cargar los servicios.</p>
+      <p class="text-center text-red-600 py-6">No se pudieron cargar los servicios.</p>
     } @else {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         @for (serv of servicios(); track serv.id) {
@@ -89,7 +89,7 @@
             </p>
           </div>
         } @empty {
-          <p class="text-gray-400 italic col-span-3 text-center">no hay servicios registrados aun.</p>
+          <p class="text-gray-400 italic col-span-3 text-center">No hay servicios registrados aún.</p>
         }
       </div>
     }
@@ -99,12 +99,12 @@
 
   <!-- ===== PROYECTOS DESTACADOS (atributo destacado en strapi) ===== -->
   <section id="proyectos" class="max-w-4xl mx-auto py-16 px-4">
-    <h2 class="text-3xl font-semibold text-center mb-10 text-black">proyectos destacados</h2>
+    <h2 class="text-3xl font-semibold text-center mb-10 text-black">Proyectos destacados</h2>
 
     @if (destacadosResource.isLoading()) {
-      <p class="text-center text-gray-400 italic py-6">cargando proyectos...</p>
+      <p class="text-center text-gray-400 italic py-6">Cargando proyectos...</p>
     } @else if (destacadosResource.error()) {
-      <p class="text-center text-red-600 py-6">no se pudieron cargar los proyectos.</p>
+      <p class="text-center text-red-600 py-6">No se pudieron cargar los proyectos.</p>
     } @else {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         @for (proy of destacados(); track proy.id) {
@@ -119,22 +119,22 @@
                 {{ proy.tipo_proyecto || proy.attributes?.tipo_proyecto }}
               </span>
               <p class="text-gray-600 text-sm mb-4">{{ proy.descripcion_breve || proy.attributes?.descripcion_breve }}</p>
-              <p class="text-gray-800 text-sm font-medium mb-4">tecnologias: {{ proy.tecnologias || proy.attributes?.tecnologias }}</p>
+              <p class="text-gray-800 text-sm font-medium mb-4">Tecnologías: {{ proy.tecnologias || proy.attributes?.tecnologias }}</p>
 
               <div class="flex gap-4 text-sm font-medium">
                 @if (proy.enlace_repositorio || proy.attributes?.enlace_repositorio) {
                   <a [href]="urlExterna(proy.enlace_repositorio || proy.attributes?.enlace_repositorio)" target="_blank" rel="noopener"
-                     class="text-black hover:underline">repositorio</a>
+                     class="text-black hover:underline">Repositorio</a>
                 }
                 @if (proy.enlace_demo || proy.attributes?.enlace_demo) {
                   <a [href]="urlExterna(proy.enlace_demo || proy.attributes?.enlace_demo)" target="_blank" rel="noopener"
-                     class="text-black hover:underline">demo</a>
+                     class="text-black hover:underline">Demo</a>
                 }
               </div>
             </div>
           </div>
         } @empty {
-          <p class="text-gray-400 italic col-span-2 text-center">aun no hay proyectos destacados.</p>
+          <p class="text-gray-400 italic col-span-2 text-center">Aún no hay proyectos destacados.</p>
         }
       </div>
     }
@@ -142,12 +142,12 @@
 
   <!-- ===== CONTACTO ===== -->
   <section class="bg-black text-white py-16 px-4 text-center mt-8">
-    <h2 class="text-3xl font-semibold mb-4">¿tienes un proyecto en mente?</h2>
+    <h2 class="text-3xl font-semibold mb-4">¿Tienes un proyecto en mente?</h2>
     <p class="text-gray-300 max-w-xl mx-auto mb-8">
-      envia una solicitud de contacto y conversemos sobre como puedo ayudarte.
+      Envía una solicitud y conversemos sobre cómo puedo ayudarte.
     </p>
     <button routerLink="/contacto" class="px-8 py-3 bg-white text-black rounded-md hover:bg-gray-200 transition font-medium">
-      enviar solicitud
+      Enviar solicitud
     </button>
   </section>
 

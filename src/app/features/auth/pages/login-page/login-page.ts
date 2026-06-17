@@ -46,13 +46,13 @@ export class LoginPage {
       // intentamos iniciar sesion
       this.authService.login(email!, password!).subscribe({
         next: () => this.router.navigate(['/']),
-        error: (err) => this.mensajeError.set('correo o contrasena incorrectos')
+        error: (err) => this.mensajeError.set('Correo o contraseña incorrectos')
       });
     } else {
       // intentamos registrar un usuario nuevo
       this.authService.registro(email!, password!).subscribe({
         next: () => this.router.navigate(['/']),
-        error: (err) => this.mensajeError.set('hubo un error al crear la cuenta')
+        error: (err) => this.mensajeError.set('Hubo un error al crear la cuenta')
       });
     }
   }
