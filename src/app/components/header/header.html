@@ -17,6 +17,13 @@
       Servicios
     </a>
 
+    <!-- enlace directo al perfil; aparece cuando ya cargo el slug del programador -->
+    @if (slugPerfil()) {
+      <a [routerLink]="['/perfil', slugPerfil()]" routerLinkActive="text-black font-bold" class="text-gray-500 hover:text-black transition-colors">
+        Perfil
+      </a>
+    }
+
     @if (authService.currentUser()) {
 
       <!-- mostramos contacto solo si no es el administrador -->

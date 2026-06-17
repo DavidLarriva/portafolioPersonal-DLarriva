@@ -1,6 +1,9 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, computed, inject, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { PortfolioService } from '../../core/services/portfolio';
 
 @Component({
   selector: 'app-header',
@@ -17,9 +20,24 @@ export class HeaderComponent {
 
   authService = inject(AuthService);
   private router = inject(Router);
+  private portfolioService = inject(PortfolioService);
 
   // definimos correo
   correoProgramador = 'programador@gmail.com';
+
+  // traemos el programador para poder armar el enlace al perfil (la ruta /perfil/:slug necesita su slug)
+  private programadoresResource = rxResource({
+    stream: () => this.portfolioService.getProgramadores().pipe(
+      map((respuesta: any) => respuesta.data ?? [])
+    ),
+    defaultValue: [] as any[]
+  });
+
+  // slug del perfil principal; el enlace "Perfil" solo aparece cuando ya lo tenemos
+  slugPerfil = computed(() => {
+    const prog = this.programadoresResource.value()?.[0];
+    return prog?.slug || prog?.documentId || prog?.id || '';
+  });
 
   
   oculto = signal(false);
