@@ -7,8 +7,7 @@ export const guestGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // igual que el authGuard: esperamos la primera respuesta real de firebase
-  // para no dejar entrar a /auth a alguien que en realidad ya tiene sesion.
+  // si ya hay sesion no dejamos entrar a /auth (esperamos a firebase con take(1))
   return authService.estadoSesion.pipe(
     take(1),
     map(usuario => usuario ? router.createUrlTree(['/']) : true)

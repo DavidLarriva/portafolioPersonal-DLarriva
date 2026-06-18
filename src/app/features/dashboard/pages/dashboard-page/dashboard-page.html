@@ -23,7 +23,6 @@
 
         <div class="p-6 border border-gray-200 rounded-lg bg-gray-50 shadow-sm relative">
 
-          <!-- cabecera con el remitente y estado -->
           <div class="flex justify-between items-start mb-4">
             <div>
               <h3 class="font-bold text-lg text-black">{{ solicitud.nombre }}</h3>
@@ -38,13 +37,11 @@
             </span>
           </div>
 
-          <!-- cuerpo de la idea original -->
           <div class="mb-4">
             <p class="text-sm font-medium text-gray-700 mb-1">Idea o proyecto:</p>
             <p class="text-gray-600 bg-white p-3 rounded border border-gray-200">{{ solicitud.mensaje }}</p>
           </div>
 
-          <!-- seccion para leer la respuesta guardada (visible para ambos) -->
           @if (solicitud.respuestaProgramador) {
             <div class="mb-4">
               <p class="text-sm font-bold text-black mb-1">Respuesta del desarrollador:</p>
@@ -54,7 +51,6 @@
             <p class="text-xs text-gray-500 mt-4 italic">Esperando la respuesta del desarrollador...</p>
           }
 
-          <!-- area de edicion solo para el programador -->
           @if (esProgramador()) {
             <div class="mt-6 pt-4 border-t border-gray-300">
               <p class="text-sm font-bold text-gray-600 mb-3">Actualizar respuesta o estado:</p>

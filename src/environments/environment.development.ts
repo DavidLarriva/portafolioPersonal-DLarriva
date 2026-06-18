@@ -1,8 +1,6 @@
-// entorno de DESARROLLO (se usa al hacer "ng serve")
-// aqui apuntamos a tu Strapi corriendo localmente.
+// desarrollo: se usa al hacer ng serve (Strapi local)
 export const environment = {
   production: false,
-  // URL base de Strapi local (sin la barra final)
   strapiUrl: 'http://localhost:1337',
   firebase: {
     apiKey: "AIzaSyArg-Kiy9sR8u8dQePsn5g7RE_5rsBZYdE",

@@ -12,7 +12,7 @@ import { PortfolioService } from '../../core/services/portfolio';
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
   host: {
-    // cuando esta oculto lo deslizamos hacia arriba 
+    // se oculta deslizandose hacia arriba
     '[style.transform]': "oculto() ? 'translateY(-100%)' : ''"
   }
 })
@@ -22,10 +22,9 @@ export class HeaderComponent {
   private router = inject(Router);
   private portfolioService = inject(PortfolioService);
 
-  // definimos correo
   correoProgramador = 'programador@gmail.com';
 
-  // traemos el programador para poder armar el enlace al perfil (la ruta /perfil/:slug necesita su slug)
+  // el enlace "Perfil" necesita el slug del programador
   private programadoresResource = rxResource({
     stream: () => this.portfolioService.getProgramadores().pipe(
       map((respuesta: any) => respuesta.data ?? [])
@@ -33,25 +32,22 @@ export class HeaderComponent {
     defaultValue: [] as any[]
   });
 
-  // slug del perfil principal; el enlace "Perfil" solo aparece cuando ya lo tenemos
+  // solo mostramos "Perfil" cuando ya tenemos el slug
   slugPerfil = computed(() => {
     const prog = this.programadoresResource.value()?.[0];
     return prog?.slug || prog?.documentId || prog?.id || '';
   });
 
-  
   oculto = signal(false);
   private ultimoScroll = 0;
 
   @HostListener('window:scroll')
   alHacerScroll() {
     const posicionActual = window.scrollY;
-    
     this.oculto.set(posicionActual > this.ultimoScroll && posicionActual > 80);
     this.ultimoScroll = posicionActual;
   }
 
-  // evaluamos si quien esta conectado es el dueño
   esProgramador(): boolean {
     const usuarioActual = this.authService.currentUser();
     return usuarioActual?.email === this.correoProgramador;

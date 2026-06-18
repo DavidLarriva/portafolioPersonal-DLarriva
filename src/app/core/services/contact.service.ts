@@ -33,7 +33,6 @@ export class ContactService {
     return collectionData(q, { idField: 'id' });
   }
 
-  // funcion corregida para que el administrador vea todo
   obtenerTodasLasSolicitudes(): Observable<any[]> {
     const mensajesRef = collection(this.firestore, 'mensajes');
     return collectionData(mensajesRef, { idField: 'id' });

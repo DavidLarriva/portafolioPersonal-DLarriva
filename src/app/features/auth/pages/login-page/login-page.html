@@ -2,11 +2,9 @@
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md border border-gray-200">
 
     <h1 class="text-2xl font-bold text-center mb-6 text-gray-900">
-      <!-- el titulo cambia dependiendo de lo que el usuario quiera hacer -->
       {{ esModoLogin() ? 'Acceder' : 'Crear cuenta nueva' }}
     </h1>
 
-    <!-- conectamos el html con nuestro authform de typescript -->
     <form [formGroup]="authForm" (ngSubmit)="enviarFormulario()" class="space-y-4">
 
       <div>
@@ -20,14 +18,12 @@
         <p class="text-xs text-gray-500 mt-1">Mínimo 6 caracteres</p>
       </div>
 
-      <!-- si firebase nos devuelve un error lo mostramos aqui -->
       @if (mensajeError()) {
         <div class="bg-gray-100 text-gray-900 p-3 rounded-md text-sm text-center font-medium border border-gray-400 border-l-4 border-l-gray-900">
           {{ mensajeError() }}
         </div>
       }
 
-      <!-- el boton se apaga solo si el formulario no es valido -->
       <button type="submit" [disabled]="authForm.invalid" class="w-full py-2 px-4 bg-gray-900 text-white rounded-md hover:bg-gray-800 disabled:opacity-50 transition font-medium">
         {{ esModoLogin() ? 'Iniciar sesión' : 'Registrarme' }}
       </button>
@@ -35,7 +31,6 @@
     </form>
 
     <div class="mt-6 text-center">
-      <!-- boton secundario para alternar entre registro y login -->
       <button type="button" (click)="cambiarModo()" class="text-sm text-gray-600 hover:text-gray-900 underline transition">
         {{ esModoLogin() ? '¿No tienes cuenta? Regístrate aquí' : '¿Ya tienes cuenta? Inicia sesión' }}
       </button>

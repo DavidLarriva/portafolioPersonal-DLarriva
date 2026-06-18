@@ -1,5 +1,4 @@
-/* el header queda fijo en la parte superior y acompaña el scroll;
-   el desplazamiento (ocultar/mostrar) se aplica como style inline desde el .ts */
+/* header fijo que se desliza al ocultarse (el transform viene del .ts) */
 :host {
   position: sticky;
   top: 0;

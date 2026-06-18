@@ -30,7 +30,7 @@
             {{ prog.especialidad || prog.attributes?.especialidad }}
           </p>
 
-          <!-- correo y redes profesionales (nombres reales en strapi: correo, github_url, linkedin_url) -->
+          <!-- campos reales en strapi: correo, github_url, linkedin_url -->
           <div class="flex gap-4 mt-2 text-sm font-medium">
             @if (prog.correo || prog.correo_contacto || prog.attributes?.correo) {
               <a [href]="'mailto:' + (prog.correo || prog.correo_contacto || prog.attributes?.correo)" class="text-gray-700 hover:text-black hover:underline">Correo</a>

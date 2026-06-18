@@ -11,19 +11,17 @@ import { ContactService } from '../../../../core/services/contact.service';
   styleUrls: ['./dashboard-page.css']
 })
 export class DashboardPageComponent {
-  
+
   authService = inject(AuthService);
   private contactService = inject(ContactService);
 
   solicitudes = signal<any[]>([]);
-  
-  // creamos una señal para nuestro mensaje elegante
   notificacion = signal<string>('');
-  
+
   correoProgramador = 'programador@gmail.com';
 
   constructor() {
-    // effect vigila la señal currentUser y reacciona cuando firebase entrega el correo
+    // carga las solicitudes cuando firebase entrega el usuario
     effect(() => {
       const usuarioActual = this.authService.currentUser();
       if (usuarioActual?.email) {
@@ -38,6 +36,7 @@ export class DashboardPageComponent {
   }
 
   cargarSolicitudes(correoActual: string) {
+    // el admin ve todas; el usuario solo las suyas
     if (this.esProgramador()) {
       this.contactService.obtenerTodasLasSolicitudes().subscribe(data => {
         this.solicitudes.set(data);
@@ -55,14 +54,11 @@ export class DashboardPageComponent {
 
     this.contactService.actualizarEstadoSolicitud(solicitud.id, nuevoEstado, respuesta).subscribe({
       next: () => {
-        // cambiamos el alert por nuestra notificacion en pantalla
         this.notificacion.set('Respuesta guardada correctamente');
-        
-        // limpiamos los campos temporales
+
         solicitud.respuestaTemporal = '';
         solicitud.estadoTemporal = '';
 
-        // desaparecemos la notificacion despues de 3 segundos
         setTimeout(() => this.notificacion.set(''), 3000);
       },
       error: (err) => console.error('error al actualizar', err)

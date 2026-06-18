@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-// rxResource convierte el observable de strapi en un recurso reactivo basado en signals
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -15,14 +14,12 @@ import { environment } from '../../../../../environments/environment';
 })
 export class ProfilePage {
 
-  // traemos el servicio del portafolio y la ruta activa
   private portfolioService = inject(PortfolioService);
   private route = inject(ActivatedRoute);
 
-  // leemos el slug de la url de forma reactiva
   slug = toSignal(this.route.paramMap.pipe(map(p => p.get('slug') ?? '')), { initialValue: '' });
 
-  // rxResource vuelve a pedir los datos cada vez que cambia el slug (params)
+  // vuelve a pedir los datos cuando cambia el slug de la url
   programadorResource = rxResource({
     params: () => this.slug(),
     stream: ({ params }) => this.portfolioService.getProgramadorPorSlug(params).pipe(
@@ -30,20 +27,17 @@ export class ProfilePage {
     ),
     defaultValue: null
   });
-
-  // exponemos el valor para el html
   programador = this.programadorResource.value;
 
   obtenerUrlImagen(prog: any): string {
     const rutaImagen = prog?.foto_perfil?.url || prog?.attributes?.foto_perfil?.data?.attributes?.url;
     if (rutaImagen) {
-      // en strapi cloud la url ya es absoluta; en local es relativa y hay que anteponer el host
+      // strapi cloud da url absoluta; en local hay que anteponer el host
       return rutaImagen.startsWith('http') ? rutaImagen : environment.strapiUrl + rutaImagen;
     }
     return '';
   }
 
-  // normaliza enlaces externos: si el usuario no puso http(s), se lo agregamos
   urlExterna(url: string): string {
     if (!url) return '';
     return /^https?:\/\//i.test(url) ? url : 'https://' + url;

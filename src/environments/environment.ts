@@ -1,8 +1,6 @@
-// entorno de PRODUCCION (se usa al hacer "ng build")
-// IMPORTANTE: reemplaza strapiUrl por la URL real de tu Strapi Cloud cuando lo despliegues.
+// produccion: se usa al hacer ng build (Strapi Cloud)
 export const environment = {
   production: true,
-  // URL base de Strapi en la nube (sin /admin, sin /api y sin barra final)
   strapiUrl: 'https://heroic-bee-86e6f6e8c9.strapiapp.com',
   firebase: {
     apiKey: "AIzaSyArg-Kiy9sR8u8dQePsn5g7RE_5rsBZYdE",

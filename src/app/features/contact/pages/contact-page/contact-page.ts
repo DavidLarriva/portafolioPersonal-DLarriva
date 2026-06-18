@@ -20,7 +20,6 @@ export class ContactPageComponent {
   private fb = inject(FormBuilder);
   authService = inject(AuthService);
 
-  // cargamos programadores con rxResoruce
   programadoresResource = rxResource({
     stream: () => this.portfolioService.getProgramadores().pipe(
       map((respuesta: any) => respuesta.data ?? [])
@@ -30,10 +29,10 @@ export class ContactPageComponent {
   programadores = this.programadoresResource.value;
 
   mensajeEnviado = signal<boolean>(false);
-  
+
   correoProgramador = 'programador@gmail.com';
 
-  // creamos el formulario y bloqueamos el campo de correo por defecto
+  // el correo va bloqueado se autocompleta con el usuario logueado
   contactoForm = this.fb.group({
     programadorId: ['', Validators.required],
     nombre: ['', Validators.required],
@@ -42,17 +41,14 @@ export class ContactPageComponent {
   });
 
   constructor() {
-    // usamos effect para vigilar cuando firebase cargue el correo
     effect(() => {
       const usuarioActual = this.authService.currentUser();
       if (usuarioActual?.email) {
-        // autocompletamos el campo del formulario de forma automatica
         this.contactoForm.patchValue({ correo: usuarioActual.email });
       }
     });
   }
 
-  // verificamos si es el administrador
   esProgramador(): boolean {
     const usuarioActual = this.authService.currentUser();
     return usuarioActual?.email === this.correoProgramador;
@@ -61,20 +57,19 @@ export class ContactPageComponent {
   enviarContacto() {
     if (this.contactoForm.invalid) return;
 
-    // extraemos datos con getRawValue
+    // getRawValue incluye el correo aunque este disabled
     const datos = this.contactoForm.getRawValue();
 
     this.contactService.enviarMensaje(datos).subscribe({
       next: () => {
         this.contactoForm.reset();
-        
-        // correo autocompletado
+
         const usuarioActual = this.authService.currentUser();
-        this.contactoForm.patchValue({ 
+        this.contactoForm.patchValue({
           programadorId: '',
-          correo: usuarioActual?.email 
+          correo: usuarioActual?.email
         });
-        
+
         this.mensajeEnviado.set(true);
         setTimeout(() => this.mensajeEnviado.set(false), 3000);
       },

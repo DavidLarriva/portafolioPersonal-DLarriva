@@ -7,5 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './footer.css'
 })
 export class FooterComponent {
-  // logica del pie de pagina
 }
