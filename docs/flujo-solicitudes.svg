@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="410" viewBox="0 0 680 410" font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#8a8984" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+
+  <rect width="680" height="410" rx="12" fill="#1a1a18"/>
+
+  <rect x="55" y="58" width="150" height="44" rx="8" fill="#185fa5" stroke="#378add"/>
+  <text x="130" y="79" text-anchor="middle" font-size="14" font-weight="600" fill="#e6f1fb">Cliente</text>
+  <text x="130" y="94" text-anchor="middle" font-size="12" fill="#b5d4f4">con sesión iniciada</text>
+
+  <rect x="265" y="58" width="150" height="44" rx="8" fill="#0f6e56" stroke="#1d9e75"/>
+  <text x="340" y="79" text-anchor="middle" font-size="14" font-weight="600" fill="#d8f3ea">Firestore</text>
+  <text x="340" y="94" text-anchor="middle" font-size="12" fill="#a3e2cd">colección mensajes</text>
+
+  <rect x="485" y="58" width="150" height="44" rx="8" fill="#5147b5" stroke="#6f66cc"/>
+  <text x="560" y="79" text-anchor="middle" font-size="14" font-weight="600" fill="#ecebfb">Programador</text>
+  <text x="560" y="94" text-anchor="middle" font-size="12" fill="#c8c3f0">cuenta admin</text>
+
+  <line x1="130" y1="102" x2="130" y2="356" stroke="#6a6a63" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="340" y1="102" x2="340" y2="356" stroke="#6a6a63" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="560" y1="102" x2="560" y2="356" stroke="#6a6a63" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <text x="235" y="138" text-anchor="middle" font-size="14" font-weight="600" fill="#e8e8e1">1 · addDoc()</text>
+  <line x1="130" y1="150" x2="340" y2="150" stroke="#8a8984" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="235" y="170" text-anchor="middle" font-size="12" fill="#b4b2a9">crea solicitud · Pendiente</text>
+
+  <text x="450" y="202" text-anchor="middle" font-size="14" font-weight="600" fill="#e8e8e1">2 · collectionData()</text>
+  <line x1="340" y1="214" x2="560" y2="214" stroke="#8a8984" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="450" y="234" text-anchor="middle" font-size="12" fill="#b4b2a9">ve todas · en vivo</text>
+
+  <text x="450" y="266" text-anchor="middle" font-size="14" font-weight="600" fill="#e8e8e1">3 · updateDoc()</text>
+  <line x1="560" y1="278" x2="340" y2="278" stroke="#8a8984" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="450" y="298" text-anchor="middle" font-size="12" fill="#b4b2a9">respuesta · Respondida</text>
+
+  <text x="235" y="330" text-anchor="middle" font-size="14" font-weight="600" fill="#e8e8e1">4 · collectionData()</text>
+  <line x1="340" y1="342" x2="130" y2="342" stroke="#8a8984" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="235" y="362" text-anchor="middle" font-size="12" fill="#b4b2a9">ve solo las suyas · en vivo</text>
+
+  <text x="340" y="392" text-anchor="middle" font-size="12" fill="#b4b2a9">Firestore emite en vivo: la respuesta llega sin recargar la página</text>
+</svg>
